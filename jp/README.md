@@ -224,7 +224,7 @@ OJapp PROは、独自ライセンスの商用ソフトウェアです。
 
 ## 1P1AとUDAは設計概念です
 
-**1P1A（One Page. One App.）**と**UDA（User Defined App）**は製品名ではなく、PWAの設計概念です。
+<strong>1P1A（One Page. One App.）</strong>と**UDA（User Defined App）**は製品名ではなく、PWAの設計概念です。
 
 1P1Aは、アプリの境界をWebサイト全体ではなく、ページ単位で定義する設計手法を表します。
 
