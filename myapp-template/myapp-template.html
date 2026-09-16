@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- =========================================================
+    【編集 1/4】アプリ名・説明・ホーム画面アイコン
+    icon は正方形画像のURL推奨（512×512pxがおすすめ）
+  ========================================================== -->
+  <title>わたしのマイアプリ</title>
+  <meta name="description" content="よく使うページをひとつにまとめた、わたし専用のマイアプリ。">
+  <meta name="ojapp:title" content="マイアプリ">
+  <meta name="ojapp:icon" content="https://ojapp.app/icon/icon-512.png">
+  <meta name="theme-color" content="#f4f1ff">
+
+  <!-- OJapp Free：この1行で、このページをホーム画面アプリにします -->
+  <script src="https://ojapp.app/js/ojapp.js"></script>
+
+  <style>
+    /* =========================================================
+      【編集 2/4】色と見た目
+      下の色コードを変えるだけで全体の雰囲気を変更できます
+    ========================================================== */
+    :root {
+      --bg-start: #f9f7ff;
+      --bg-end: #edf4ff;
+      --text: #242333;
+      --muted: #777489;
+      --accent: #7658e8;
+      --accent-soft: #ece7ff;
+      --panel: rgba(255, 255, 255, 0.72);
+      --line: rgba(71, 57, 116, 0.10);
+      --shadow: 0 18px 45px rgba(69, 54, 120, 0.13);
+      --radius: 30px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; background: var(--bg-end); }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 5%, rgba(154, 126, 255, .22), transparent 27rem),
+        radial-gradient(circle at 92% 92%, rgba(91, 176, 255, .18), transparent 25rem),
+        linear-gradient(145deg, var(--bg-start), var(--bg-end));
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .app-shell {
+      width: min(100%, 520px);
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: max(28px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      padding: 18px 8px 22px;
+      animation: rise .55s ease-out both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px var(--accent-soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(29px, 8vw, 42px);
+      line-height: 1.18;
+      letter-spacing: -.045em;
+    }
+
+    .lead {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .panel {
+      padding: 22px 14px 24px;
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      animation: rise .65s .05s ease-out both;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0 8px 18px;
+    }
+
+    .panel-title { margin: 0; font-size: 15px; letter-spacing: .01em; }
+    .app-count { color: var(--muted); font-size: 12px; }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px 8px;
+    }
+
+    .app-item {
+      min-width: 0;
+      color: inherit;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 18px;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    .app-item:active { transform: scale(.92); opacity: .82; }
+    .app-item:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+
+    .app-icon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: clamp(55px, 15vw, 68px);
+      aspect-ratio: 1;
+      margin: 0 auto 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 22%;
+      background: var(--icon-bg, #ffffff);
+      box-shadow: 0 8px 18px rgba(50, 40, 88, .16), inset 0 1px rgba(255,255,255,.55);
+      font-size: clamp(25px, 7vw, 32px);
+    }
+
+    .app-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+    .app-name {
+      display: block;
+      overflow: hidden;
+      color: #3c394a;
+      font-size: 11px;
+      font-weight: 650;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .empty {
+      display: none;
+      padding: 34px 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .tip {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.46);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      animation: rise .7s .1s ease-out both;
+    }
+
+    .tip-mark {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 28px 0 4px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: .04em;
+    }
+
+    footer a { color: inherit; text-underline-offset: 3px; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 350px) {
+      .app-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    /* ホーム画面からアプリとして開いた時は、追加案内を非表示 */
+    @media (display-mode: standalone) {
+      .tip { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <!-- =====================================================
+        【編集 3/4】画面上部の文章
+      ====================================================== -->
+      <span class="eyebrow">MY APP</span>
+      <h1>おかえりなさい。</h1>
+      <p class="lead">よく使う場所へ、ここからすぐに。</p>
+    </header>
+
+    <section class="panel" aria-labelledby="apps-title">
+      <div class="panel-head">
+        <h2 class="panel-title" id="apps-title">マイアプリ</h2>
+        <span class="app-count" id="app-count"></span>
+      </div>
+      <div class="app-grid" id="app-grid"></div>
+      <p class="empty" id="empty-message">アプリを追加してください。</p>
+    </section>
+
+    <aside class="tip">
+      <span class="tip-mark">＋</span>
+      <span>ブラウザの共有メニューから「ホーム画面に追加」すると、このページをアプリのように使えます。</span>
+    </aside>
+
+    <footer>
+      Powered by <a href="https://ojapp.app/one-page-one-app" target="_blank" rel="noopener">OJapp Free</a>
+    </footer>
+  </main>
+
+  <script>
+    /* =========================================================
+      【編集 4/4】表示するアプリ
+
+      name  : アイコンの下に表示する名前
+      url   : 開きたいページのURL
+      icon  : 絵文字 または 画像URL
+      color : アイコンの背景色
+
+      下の { ... } をコピーすると何個でも増やせます。
+      画像URLを使う例：icon: "https://example.com/icon.png"
+    ========================================================== */
+    const MY_APPS = [
+      {
+        name: "Webサイト",
+        url: "https://example.com/",
+        icon: "🌐",
+        color: "#e9f2ff"
+      },
+      {
+        name: "ショップ",
+        url: "https://example.com/shop/",
+        icon: "🛍️",
+        color: "#fff0f4"
+      },
+      {
+        name: "ブログ",
+        url: "https://example.com/blog/",
+        icon: "✍️",
+        color: "#fff5dc"
+      },
+      {
+        name: "プロフィール",
+        url: "https://example.com/profile/",
+        icon: "👤",
+        color: "#eeeaff"
+      },
+      {
+        name: "動画",
+        url: "https://www.youtube.com/",
+        icon: "▶️",
+        color: "#ffe8e8"
+      },
+      {
+        name: "写真",
+        url: "https://www.instagram.com/",
+        icon: "📷",
+        color: "#f5e9ff"
+      },
+      {
+        name: "お問い合わせ",
+        url: "mailto:hello@example.com",
+        icon: "✉️",
+        color: "#e8f8f1"
+      },
+      {
+        name: "地図",
+        url: "https://maps.google.com/",
+        icon: "📍",
+        color: "#e9f8ed"
+      }
+    ];
+
+    /* ここから下は変更しなくてOKです */
+    const grid = document.getElementById("app-grid");
+    const count = document.getElementById("app-count");
+    const empty = document.getElementById("empty-message");
+
+    // iPhoneのホーム画面起動でも追加案内を確実に消します
+    if (window.navigator.standalone === true) {
+      document.querySelector(".tip")?.remove();
+    }
+
+    const isImage = (value) => /^(https?:\/\/|data:image\/|\/)/i.test(value);
+
+    MY_APPS.forEach((app) => {
+      const link = document.createElement("a");
+      link.className = "app-item";
+      link.href = app.url;
+      link.setAttribute("aria-label", app.name);
+
+      const icon = document.createElement("span");
+      icon.className = "app-icon";
+      icon.style.setProperty("--icon-bg", app.color || "#ffffff");
+
+      if (isImage(app.icon)) {
+        const image = document.createElement("img");
+        image.src = app.icon;
+        image.alt = "";
+        image.loading = "lazy";
+        icon.appendChild(image);
+      } else {
+        icon.textContent = app.icon || "↗";
+      }
+
+      const name = document.createElement("span");
+      name.className = "app-name";
+      name.textContent = app.name;
+
+      link.append(icon, name);
+      grid.appendChild(link);
+    });
+
+    count.textContent = `${MY_APPS.length} APPS`;
+    empty.style.display = MY_APPS.length ? "none" : "block";
+  </script>
+</body>
+</html>
