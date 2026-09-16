@@ -40,8 +40,8 @@ HTML内で `【編集` を検索すると、変更する場所が見つかりま
 ### 3. Web上に公開する
 
 編集したHTMLを、HTTPSに対応したWebサーバーへアップロードします。
-githubやか
-[cloudflare](https://www.cloudflare.com/drop/)が簡単です。
+githubや[cloudflare](https://www.cloudflare.com/drop/)が簡単です。
+
 ファイル名を`index.html`にすると、フォルダのURLだけで開けます。
 
 ### 4. ホーム画面に追加する
