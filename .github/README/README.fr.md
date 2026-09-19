@@ -1,3 +1,4 @@
+Languages: [English](../../README.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [日本語](README.ja.md)
 # 1P1A (One Page One App) & OJapp Dynamic PWA Suite
 
 > Transformez une page, un répertoire ou un site entier en Progressive Web App (PWA) autonome grâce à un script léger côté client et à un manifeste Data URL généré dynamiquement.
