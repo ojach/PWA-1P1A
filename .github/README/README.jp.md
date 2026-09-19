@@ -1,3 +1,4 @@
+Languages: [English](../../README.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt.md)
 # 1P1A（One Page One App）& OJapp Dynamic PWA Suite
 
 > 軽量なクライアントサイドスクリプトと、動的に生成されるData URL Manifestを使って、ページ、ディレクトリ、またはサイト全体をスタンドアロンのProgressive Web App（PWA）に変換します。
