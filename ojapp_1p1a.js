@@ -61,6 +61,17 @@
     "OJapp";
 
   // ========================================
+  // App description
+  // ========================================
+
+const appDescription =
+  getMetaContent(
+    'meta[name="ojapp:description"]'
+  ) ||
+  getMetaContent(
+    'meta[name="description"]'
+  );  
+  // ========================================
   // App icon
   // ========================================
 
@@ -97,6 +108,41 @@
     toAbsoluteUrl(ogImage) ||
     toAbsoluteUrl(favicon) ||
     DEFAULT_ICON;
+
+const isAndroid =
+  /Android/i.test(
+    navigator.userAgent
+  );
+
+const screenshotUrl =
+  toAbsoluteUrl(
+    getMetaContent(
+      'meta[name="ojapp:screenshot"]'
+    )
+  );
+
+const screenshotUrls = [];
+
+for (let i = 1; i <= 5; i++) {
+  const url =
+    toAbsoluteUrl(
+      getMetaContent(
+        `meta[name="ojapp:screenshot-${i}"]`
+      )
+    );
+
+  if (url) {
+    screenshotUrls.push(url);
+  }
+}
+
+// 番号付きがなければ従来の1枚を使用
+if (
+  screenshotUrls.length === 0 &&
+  screenshotUrl
+) {
+  screenshotUrls.push(screenshotUrl);
+}
 
   // ========================================
   // Manifest
@@ -139,6 +185,22 @@
       }
     ]
     };
+
+    if (appDescription) {
+      manifestObj.description =
+      appDescription;
+    };
+
+if (screenshotUrls.length) {
+  manifestObj.screenshots =
+    screenshotUrls.map((src) => ({
+      src,
+      form_factor:
+        isAndroid
+          ? "narrow"
+          : "wide"
+    }));
+}
 
     const jsonString =
       JSON.stringify(manifestObj);
@@ -212,35 +274,63 @@
   // Free notice language
   // ========================================
 
-  const messages = {
-    ja: {
-      text:
-        "このページをホーム画面に追加してアプリに",
-      url:
-        "https://ojapp.app/one-page-one-app"
-    },
+const messages = {
+  ja: {
+    text:
+      "このページをホーム画面に追加してアプリに",
+    url:
+      "https://ojapp.app/one-page-one-app"
+  },
 
-    en: {
-      text:
-        "Add this page to your home screen as an app.",
-      url:
-        "https://ojapp.app/one-page-one-app/en"
-    },
+  en: {
+    text:
+      "Add this page to your home screen as an app.",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  },
 
-    ko: {
-      text:
-        "이 페이지를 홈 화면에 추가하여 앱으로 사용하세요.",
-      url:
-        "https://ojapp.app/one-page-one-app/en"
-    },
+  ko: {
+    text:
+      "이 페이지를 홈 화면에 추가하여 앱으로 사용하세요.",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  },
 
-    zh: {
-      text:
-        "将此页面添加到主屏幕，作为应用使用。",
-      url:
-        "https://ojapp.app/one-page-one-app/en"
-    }
-  };
+  zh: {
+    text:
+      "将此页面添加到主屏幕，作为应用使用。",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  },
+
+  de: {
+    text:
+      "Fügen Sie diese Seite Ihrem Startbildschirm hinzu und nutzen Sie sie als App.",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  },
+
+  fr: {
+    text:
+      "Ajoutez cette page à votre écran d’accueil pour l’utiliser comme une application.",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  },
+
+  es: {
+    text:
+      "Añade esta página a tu pantalla de inicio para usarla como una aplicación.",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  },
+
+  pt: {
+    text:
+      "Adicione esta página à tela inicial para usá-la como um aplicativo.",
+    url:
+      "https://ojapp.app/one-page-one-app/en"
+  }
+};
 
   const pageLanguage =
     document.documentElement.lang ||
@@ -443,3 +533,4 @@
     );
   }
 })();
+
